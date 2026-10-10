@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>모덕 달리기 · 삼락 벚꽃길</title>
+  <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body>
+<main>
+  <header><a class="brand" href="./index.html">🌼 모덕 달리기</a><span>삼락 벚꽃길에서 함께 달려요</span><button id="fullscreen">전체 화면</button></header>
+  <section class="arena">
+    <canvas id="game" aria-label="모덕 학교 캐릭터와 함께하는 달리기 게임"></canvas>
+    <div class="hud" id="hud" hidden><div><small>남은 시간</small><b id="time">90</b><span>초</span></div><div><small>완주까지</small><b id="distance">250</b><span>m</span></div><div><small>모은 꽃</small><b id="flowers">0</b><span>송이</span></div><button id="pause">잠깐 쉬기</button></div>
+    <div class="race-hud" id="raceHud" hidden><div class="p1-score"><b>1P</b> <span id="p0Distance">0m</span><small id="p0Flowers">0송이</small></div><div class="race-clock"><b id="raceTime">90</b>초<small id="raceLead">나란히 달리는 중</small><button id="pauseRace">잠깐 쉬기</button></div><div class="p2-score"><b>2P</b> <span id="p1Distance">0m</span><small id="p1Flowers">0송이</small></div></div>
+    <div class="progress" id="progress" hidden><i id="bar"></i><i id="bar2" hidden></i></div>
+    <div class="panel" id="menu">
+      <span class="eyebrow">SAMNAK CHERRY BLOSSOM RUN</span><h1>삼락 벚꽃길,<br>함께 달려요!</h1><p>왼발, 오른발을 번갈아 밟으며<br>약 30초, 250m 꽃길을 완주해 보세요.</p>
+      <div class="mode-select" aria-label="플레이 인원"><button type="button" class="selected" data-mode="1" aria-pressed="true">1P 혼자 달리기</button><button type="button" data-mode="2" aria-pressed="false">2P 함께 경쟁</button></div><small id="characterHint">함께 달릴 친구를 골라 주세요.</small>
+      <div class="choices"><button class="choice selected" data-character="0"><canvas width="150" height="180"></canvas><span>꽃 친구</span></button><button class="choice" data-character="1"><canvas width="150" height="180"></canvas><span>산 친구</span></button></div>
+      <label class="option"><input type="checkbox" id="jumpMode" checked> 장애물 도전 <span>점프: Space · ↑ · 화면 점프 버튼</span></label>
+      <details class="background-settings"><summary>배경 사진과 흐림 조절</summary><label>배경 흐림 <input id="blurAmount" type="range" min="0" max="5" step="0.5" value="2"><span id="blurValue">2px</span></label><label class="photo-picker">내 촬영 사진 선택<input id="backgroundFile" type="file" accept="image/*"></label><button type="button" id="resetBackground">기본 배경으로</button><small id="backgroundSource">삼락 풍경을 참고한 실사풍 생성 이미지</small></details>
+      <button class="primary" id="start" disabled>캐릭터 준비 중…</button><small class="hint" id="modeHint">← → 또는 A D · Space / ↑로 점프</small>
+    </div>
+    <div class="panel compact" id="result" hidden><span class="eyebrow" id="resultLabel">FINISH!</span><h1 id="resultTitle"></h1><p id="resultText"></p><button class="primary" id="again">다시 달리기</button><button class="secondary" id="home">캐릭터 고르기</button></div>
+    <div class="panel compact" id="pausePanel" hidden><span class="eyebrow">잠깐 쉬어가요</span><h1>숨을 고르고,<br>다시 출발!</h1><button class="primary" id="resume">계속 달리기</button><button class="secondary" id="quit">처음으로</button></div>
+    <div id="countdown" hidden></div><div id="toast" role="status"></div>
+    <div class="pads" id="pads1"><button id="leftPad"><b>←</b><span>1P 왼발 · ←</span></button><div><b id="speed">0.0</b><span>m/s</span><small id="stepHint">번갈아 밟아 주세요</small><button id="jump">점프 ↑ · Space</button></div><button id="rightPad"><b>→</b><span>1P 오른발 · →</span></button></div>
+    <div class="pads" id="pads2" hidden><button id="leftPad2"><b>A</b><span>2P 왼발</span></button><div><b id="speed2">0.0</b><span>m/s</span><small id="stepHint2">번갈아 밟아 주세요</small><button id="jump2">점프 · W</button></div><button id="rightPad2"><b>D</b><span>2P 오른발</span></button></div>
+  </section>
+  <footer><span>1P: ← → · Space | 2P: A D · W (메이키 메이키 뒷면 단자)</span><span>소리 없이도 즐길 수 있어요 · P 일시정지</span></footer>
+</main><script src="game.js?v=5"></script><script src="renderer.js?v=5"></script>
+</body></html>
+
+

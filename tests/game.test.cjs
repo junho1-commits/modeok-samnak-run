@@ -65,14 +65,18 @@ assert(scales.at(-1)[0] > before * 1.2, 'photo movement must be visibly stronger
 for (const value of [0, 10, 21.99, 22, 22.01, 44, 100]) run(`players[0].distance=${value};render()`);
 console.log('PASS: independent movement/jump, controls, 2P winner, tie, timeout, fair obstacles, pause, landing, moving photo and split rendering');
 
-begin(1);
-let ticks=0;
-while(run('state')==='running'&&ticks<600){
-  if(ticks%5===0)run(`foot('${ticks%10===0?'left':'right'}',0)`);
-  run('if(players[0].items.some(o=>o.type==="cone"&&!o.done&&o.at-players[0].distance>0&&o.at-players[0].distance<4))jump(0);update(.05)');
-  ticks++;
+for(const length of [100,150,200]){
+  run(`setDistance(${length})`);begin(1);
+  assert.equal(run('LENGTH'),length);
+  assert(run('players[0].items.every(o=>o.at<LENGTH)'));
+  let ticks=0;
+  while(run('state')==='running'&&ticks<600){
+    if(ticks%5===0)run(`foot('${ticks%10===0?'left':'right'}',0)`);
+    run('if(players[0].items.some(o=>o.type==="cone"&&!o.done&&o.at-players[0].distance>0&&o.at-players[0].distance<4))jump(0);update(.05)');
+    ticks++;
+  }
+  assert.equal(run('state'),'result');
+  assert.equal(run('players[0].distance'),length);
+  console.log(`PASS: ${length}m selectable course finished in ${(ticks*.05).toFixed(1)} seconds`);
 }
-assert.equal(run('state'),'result','short course should finish within 30 seconds at steady cadence');
-assert(run('players[0].distance')===250);
-console.log('PASS: 250m course completed at steady cadence in '+(ticks*.05).toFixed(1)+' seconds');
-
+run('setDistance(175)');assert.equal(run('LENGTH'),200,'unsupported distance must be rejected');

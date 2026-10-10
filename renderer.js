@@ -21,7 +21,7 @@ function drawCherryBackground(w,h,runner){
   else{layer(scale*1.8,1);const t=Math.min(1,phase/.3);layer(scale,t*t*(3-2*t))}
   const light=ctx.createLinearGradient(0,0,0,h);light.addColorStop(0,'#fff8fc15');light.addColorStop(.6,'#fff8fc00');light.addColorStop(1,'#46394025');ctx.fillStyle=light;ctx.fillRect(0,0,w,h);
 }
-$('blurAmount').oninput=e=>{backgroundBlur=Number(e.target.value);$('blurValue').textContent=backgroundBlur+'px';photoCacheKey=''};
+$('blurAmount').oninput=e=>{backgroundBlur=Number(e.target.value);$('blurValue').textContent=backgroundBlur+'단계';photoCacheKey=''};
 $('backgroundFile').onchange=e=>{
   const file=e.target.files[0];if(!file)return;
   if(!file.type.startsWith('image/')){say('사진 파일을 선택해 주세요');return}
@@ -57,7 +57,7 @@ function renderView(p,x,w,h){
       poly([[cx,q.y-112*s],[cx-34*s,q.y-10*s],[cx+34*s,q.y-10*s]],orange);
       poly([[cx-12*s,q.y-76*s],[cx+12*s,q.y-76*s],[cx+19*s,q.y-56*s],[cx-19*s,q.y-56*s]],'#fff8e8');
       poly([[cx-23*s,q.y-44*s],[cx+23*s,q.y-44*s],[cx+29*s,q.y-24*s],[cx-29*s,q.y-24*s]],'#fff8e8');
-      if(z<22){ctx.font=`bold ${mode===2?13:15}px sans-serif`;ctx.textAlign='center';ctx.fillStyle='#fff7df';ctx.strokeStyle='#6c341e';ctx.lineWidth=4;ctx.strokeText('점프!',cx,q.y-112*s-12);ctx.fillText('점프!',cx,q.y-112*s-12)}
+      if(z<22){ctx.font=`bold ${mode===2?17:20}px "Noto Sans KR", sans-serif`;ctx.textAlign='center';ctx.fillStyle='#fff7df';ctx.strokeStyle='#6c341e';ctx.lineWidth=4;ctx.strokeText('점프!',cx,q.y-112*s-12);ctx.fillText('점프!',cx,q.y-112*s-12)}
     }
   }
   if(p.distance>LENGTH-85){
@@ -69,7 +69,13 @@ function renderView(p,x,w,h){
       ctx.fillStyle=(row+col)%2?'#f8f4ef':'#423d3d';
       ctx.fillRect(cx-stripeW/2+col*tile,q.y-5*q.s+row*7*q.s,tile+.5,7*q.s);
     }
-    if(finishArch.complete&&finishArch.naturalWidth)ctx.drawImage(finishArch,cx-archW/2,q.y-archH,archW,archH);
+    if(finishArch.complete&&finishArch.naturalWidth){
+      ctx.drawImage(finishArch,cx-archW/2,q.y-archH,archW,archH);
+      const bannerY=q.y-archH+archH*.055;
+      ctx.fillStyle='#ede8df';ctx.fillRect(cx-archW*.35,bannerY,archW*.70,archH*.23);
+      ctx.fillStyle='#383638';ctx.textAlign='center';ctx.font=`800 ${Math.max(14,archH*.18)}px "Noto Sans KR", sans-serif`;
+      ctx.fillText('결 승',cx,bannerY+archH*.18);
+    }
   }
   // Smaller runner with a higher camera leaves more road visible above its head.
   const size=Math.min(mode===2?210:230,h*.30),baseY=ground-8,jumping=p.jumpHeight*Math.min(1,h/790),moving=p.speed>.15,cycle=p.phase%1;
@@ -79,8 +85,8 @@ function renderView(p,x,w,h){
   else if(motion.complete&&motion.naturalWidth){const sw=motion.naturalWidth/8,sh=motion.naturalHeight/2,col=jumping>0?7:moving?Math.floor(cycle*6):6;ctx.drawImage(motion,col*sw,p.character*sh,sw,sh,-size*sw/sh/2,-size,size*sw/sh,size)}
   else drawSprite(ctx,p.character,jumping>0?3:moving?1+Math.floor(cycle*2):1,0,0,size,size);
   ctx.restore();
-  if(p.messageTime>0&&state==='running'){ctx.font=`bold ${mode===2?12:15}px sans-serif`;ctx.textAlign='center';ctx.fillStyle='#fff7f5';ctx.strokeStyle='#704958';ctx.lineWidth=4;ctx.strokeText(p.message,cx,h*.19);ctx.fillText(p.message,cx,h*.19)}
-  if(mode===2&&state!=='menu'){ctx.fillStyle=p.id?'#266f68':'#954464';ctx.font='bold 15px sans-serif';ctx.textAlign='left';ctx.fillText(`${p.id+1}P`,15,h*.27)}
+  if(p.messageTime>0&&state==='running'){ctx.font=`bold ${mode===2?16:20}px "Noto Sans KR", sans-serif`;ctx.textAlign='center';ctx.fillStyle='#fff7f5';ctx.strokeStyle='#704958';ctx.lineWidth=4;ctx.strokeText(p.message,cx,h*.19);ctx.fillText(p.message,cx,h*.19)}
+  if(mode===2&&state!=='menu'){ctx.fillStyle=p.id?'#266f68':'#954464';ctx.font='bold 18px "Noto Sans KR", sans-serif';ctx.textAlign='left';ctx.fillText(`${p.id+1}P`,15,h*.27)}
   ctx.restore();
 }
 function render(){
